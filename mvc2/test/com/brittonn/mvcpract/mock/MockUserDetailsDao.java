@@ -22,4 +22,10 @@ public class MockUserDetailsDao implements UserDetailsDao {
 		return userDetails;
 	}
 
+	@Override
+	public void updateUserDetails(UserDetails userDetails) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

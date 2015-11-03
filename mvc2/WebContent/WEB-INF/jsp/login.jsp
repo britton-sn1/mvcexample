@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Diet Logger login</title>
 </head>
 <body>
 	<c:if test="${not empty error}"><div style="color:red">${error}</div></c:if>

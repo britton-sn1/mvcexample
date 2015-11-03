@@ -20,4 +20,12 @@ public class UserDetailsDaoImpl implements UserDetailsDao {
 		
 		return userDetails;
 	}
+
+	@Override
+	public void updateUserDetails(UserDetails userDetails) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(userDetails);
+		session.getTransaction().commit();
+	}
 }

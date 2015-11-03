@@ -4,5 +4,7 @@ import com.brittonn.hibpract.dietlog.beans.UserDetails;
 
 public interface UserDetailsDao {
 	
-	UserDetails getUserDetails(String userName); 
+	UserDetails getUserDetails(String userName);
+
+	void updateUserDetails(UserDetails userDetails); 
 }
