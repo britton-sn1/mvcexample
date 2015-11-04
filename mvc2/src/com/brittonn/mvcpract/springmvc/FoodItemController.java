@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,9 @@ public class FoodItemController {
 
 	@Autowired
 	private DietLogDao dietLogDao;
+	
+	@Autowired
+	private FoorItemServiceProvider foodItemServiceProvider;
 
 	@RequestMapping(value = "/getAllFoodItems", method = RequestMethod.GET)
 	public ModelAndView getAllFoodItems(ModelMap model) {
@@ -94,6 +98,7 @@ public class FoodItemController {
 	}
 
 	@RequestMapping(value = "/updateFoodItem", method = RequestMethod.POST)
+	@Transactional
 	public ModelAndView updateFoodItem(@ModelAttribute("SpringWeb") FoodItemForm foodItemForm, ModelMap model) {
 		ModelAndView modelAndView;
 		foodItemForm.setDirty(true);
@@ -104,7 +109,7 @@ public class FoodItemController {
 				modelAndView = new ModelAndView("addFoodItemForm");
 				modelAndView.addObject("foodItemForm", foodItemForm);
 			} else {
-				dietLogDao.updateFoodItem(foodItemForm.getFoodItem());
+				foodItemServiceProvider.updateFoodItem(foodItemForm.getFoodItem());
 				modelAndView = getAllFoodItems(model);
 			}
 		} catch (Exception e) {

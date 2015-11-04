@@ -8,26 +8,27 @@ import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.brittonn.hibpract.dietlog.beans.FoodItem;
 
-@Component
+@Service
 public class DietLogDaoImpl implements DietLogDao {
 	private static Logger log = Logger.getLogger(DietLogDaoImpl.class);
-	
+
 	@Autowired
-	private MyHibernateSessionFactory sessionFactory;
-	
+	private SessionFactory sessionFactory;
+
 	@Override
 	public void addFoodItem(FoodItem foodItem) {
 		Session session = null;
 		try {
-			session = sessionFactory.openSession();
+			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
 			session.persist(foodItem);
-			session.getTransaction().commit();
+//			session.getTransaction().commit();
 			log.debug("Added food item " + foodItem.getName());
 		}
 		finally {
@@ -72,10 +73,10 @@ public class DietLogDaoImpl implements DietLogDao {
 	public void updateFoodItem(FoodItem foodItem) {
 		Session session = null;
 		try {
-			session = sessionFactory.openSession();
+			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
 			session.update(foodItem);
-			session.getTransaction().commit();
+//			session.getTransaction().commit();
 		}
 		finally {
 			if(session != null) session.close();

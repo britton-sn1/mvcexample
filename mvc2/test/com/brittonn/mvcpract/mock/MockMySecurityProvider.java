@@ -3,8 +3,10 @@ package com.brittonn.mvcpract.mock;
 import org.springframework.stereotype.Component;
 
 import com.brittonn.mvcpract.security.MySecurityProvider;
+import com.brittonn.mvcpract.security.PasswordNotSentException;
 import com.brittonn.mvcpract.security.SessionTimedOutException;
 import com.brittonn.mvcpract.security.UserNotAutenticatedException;
+import com.brittonn.mvcpract.springmvc.RequestNewPasswordForm;
 
 @Component
 public class MockMySecurityProvider implements MySecurityProvider {
@@ -34,6 +36,12 @@ public class MockMySecurityProvider implements MySecurityProvider {
 			throw new UserNotAutenticatedException();
 		}
 
+	}
+
+	@Override
+	public void sendNewPassword(RequestNewPasswordForm requestNewPasswordForm) throws PasswordNotSentException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

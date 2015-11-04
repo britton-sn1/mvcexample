@@ -5,4 +5,6 @@ import org.hibernate.Session;
 public interface MyHibernateSessionFactory {
 
 	Session openSession();
+
+	Session getCurrentSession();
 }

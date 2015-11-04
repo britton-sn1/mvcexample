@@ -1,5 +1,7 @@
 package com.brittonn.mvcpract.security;
 
+import com.brittonn.mvcpract.springmvc.RequestNewPasswordForm;
+
 public interface MySecurityProvider {
 	
 	static final String TOKEN_HEADER = "X-Auth-Token";
@@ -16,5 +18,6 @@ public interface MySecurityProvider {
 	 */
 	String autheticate(String user, String password, String [] requestedUserRoles) throws UserNotAutenticatedException;
 	void checkSecurityToken(String user, String token, String role) throws UserNotAutenticatedException, SessionTimedOutException;
+	void sendNewPassword(RequestNewPasswordForm requestNewPasswordForm) throws PasswordNotSentException;
 
 }

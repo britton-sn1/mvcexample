@@ -1,5 +1,7 @@
 package com.brittonn.mvcpract.security;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,15 +12,21 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.brittonn.hibpract.dietlog.UserDetailsDao;
 import com.brittonn.hibpract.dietlog.beans.UserDetails;
+import com.brittonn.mvcpract.EmailSender;
+import com.brittonn.mvcpract.springmvc.RequestNewPasswordForm;
 
 @Component
 public class MySecurityProviderImpl implements MySecurityProvider {
 
 	@Autowired
 	private UserDetailsDao userDetailsDao;
+	
+	@Autowired
+	EmailSender emailSender;
 	
 	private Logger log = Logger.getLogger(MySecurityProviderImpl.class);
 	
@@ -43,6 +51,7 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 	private Random random = new Random(System.currentTimeMillis());
 
 	@Override
+	@Transactional
 	public String autheticate(String user, String password, String[] requestedUserRoles) throws UserNotAutenticatedException {
 		
 		UserDetails userDetails = userDetailsDao.getUserDetails(user);
@@ -116,5 +125,45 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 	public void setSessionTimeout(long sessionTimeout) {
 		this.sessionTimeout = sessionTimeout;
 	}
+
+	@Override
+	@Transactional
+	public void sendNewPassword(RequestNewPasswordForm requestNewPasswordForm) throws PasswordNotSentException {
+		UserDetails userDetails = userDetailsDao.getUserDetails(requestNewPasswordForm.getUsername());
+		if(userDetails == null) {
+			throw new PasswordNotSentException("Unknown User");
+		} else if (userDetails.getEmailaddr() == null || userDetails.getEmailaddr().equals(requestNewPasswordForm.getEmailaddr()) == false) {
+			throw new PasswordNotSentException("Incorrect E-mail Address");
+		}
+		else {
+			String password = generateNewPassword();
+			try {
+				String hashedPassword = PasswordHash.createHash(password);
+				
+				emailSender.sendEmail(userDetails.getEmailaddr(), userDetails.getUsername(), "Diet Logger Password Reset", "Your new diet logger password is " + password);
+				userDetails.setPwhash(hashedPassword);
+				
+				userDetailsDao.updateUserDetails(userDetails);
+				
+			} catch (NoSuchAlgorithmException e) {
+				throw new PasswordNotSentException(e.getLocalizedMessage());
+			} catch (InvalidKeySpecException e) {
+				throw new PasswordNotSentException(e.getLocalizedMessage());
+			}
+		}
+	}
+
+    private String generateNewPassword() {
+    	final String passwordChars = "abcdefghijklmnopqrstuwvABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!£$%^&?";
+    	final int passwordLength = 10;
+    	final Random rand = new Random();
+    	final char [] newPasswordChars = new char[passwordLength];
+    	for(int i=0; i< passwordLength; i++) {
+    		newPasswordChars[i] = passwordChars.charAt(rand.nextInt(passwordChars.length()));
+    	}
+    	
+    	return new String(newPasswordChars);
+	}
+
 
 }
