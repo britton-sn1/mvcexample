@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.brittonn.hibpract.dietlog.DietLogDao;
+import com.brittonn.hibpract.dietlog.FoodItemService;
 import com.brittonn.hibpract.dietlog.beans.FoodItem;
 
 
@@ -30,13 +30,13 @@ import com.brittonn.hibpract.dietlog.beans.FoodItem;
  * @author N Britton
  *
  */
-public class DietLoggerFoodItemService {
+public class FoodItemRestService {
 	
-	Logger log = Logger.getLogger(DietLoggerFoodItemService.class);
+	Logger log = Logger.getLogger(FoodItemRestService.class);
 	
 	// Dao used to update the underlying data store
 	@Autowired
-	private DietLogDao dietLogDao;
+	private FoodItemService foodItemService;
 	
 
 	@POST
@@ -54,7 +54,7 @@ public class DietLoggerFoodItemService {
 	 */
 	public Response addFoodItem(FoodItem foodItem) {
 		
-		dietLogDao.addFoodItem(foodItem);
+		foodItemService.addFoodItem(foodItem);
 		log.debug("Added food item " + foodItem.getName());
 		return Response.ok(foodItem).status(200).build();
 	}
@@ -71,7 +71,7 @@ public class DietLoggerFoodItemService {
 	 */
 	public Response getAllFoodItems() {
 		
-		List<FoodItem> foodItems = dietLogDao.getAllFoodItems().stream().sorted().collect(Collectors.toList());
+		List<FoodItem> foodItems = foodItemService.getAllFoodItems().stream().sorted().collect(Collectors.toList());
 		log.debug("Got " + foodItems.size() + " food items");
 		return Response.ok(foodItems).status(200).build();
 	}
@@ -88,7 +88,7 @@ public class DietLoggerFoodItemService {
 	 */
 	public Response getFoodItem(@QueryParam("name") String name) {
 		
-		FoodItem foodItem = dietLogDao.getNamedFoodItem(name);
+		FoodItem foodItem = foodItemService.getNamedFoodItem(name);
 		log.debug("Got food item " + name);
 		return Response.ok(foodItem).status(200).build();
 	}
@@ -107,7 +107,7 @@ public class DietLoggerFoodItemService {
 	 */
 	public Response updateFoodItems(FoodItem foodItem) {
 		
-		dietLogDao.updateFoodItem(foodItem);
+		foodItemService.updateFoodItem(foodItem);
 		log.debug("Updated food item " + foodItem.getName());
 		return Response.ok(foodItem).status(200).build();
 	}
@@ -123,7 +123,7 @@ public class DietLoggerFoodItemService {
 	 */
 	public Response deleteFoodItem(@QueryParam("name") String name) {
 		
-		dietLogDao.deleteFoodItem(name);
+		foodItemService.deleteFoodItem(name);
 		log.debug("Deleted food item " + name);
 		return Response.ok("deleted food item " + name).status(200).build();
 	}

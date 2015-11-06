@@ -22,7 +22,6 @@ public class LoggedInInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		//if(true)return true;
 		String path = request.getRequestURI();
 		if(path.endsWith("/autheticate")) {
 			return true; // Forward on to the login service

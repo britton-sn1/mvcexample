@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.brittonn.hibpract.dietlog.beans.FoodItem;
 import com.brittonn.mvcpract.mock.MockDietLogDao;
-import com.brittonn.mvcpract.rest.DietLoggerFoodItemService;
+import com.brittonn.mvcpract.rest.FoodItemRestService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/foodItemServiceTestsAppContext.xml" })
@@ -23,7 +23,7 @@ import com.brittonn.mvcpract.rest.DietLoggerFoodItemService;
 public class FoodItemServiceTest {
 
 	@Autowired
-	private DietLoggerFoodItemService theService;
+	private FoodItemRestService theService;
 	
 	@Autowired
 	private MockDietLogDao mockDietLogDao; // The service will also be using this dao through an autowired DietLogDao instance.
