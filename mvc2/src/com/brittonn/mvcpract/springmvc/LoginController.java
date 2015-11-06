@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.brittonn.hibpract.dietlog.UserDetailsDao;
 import com.brittonn.mvcpract.security.MySecurityProvider;
 import com.brittonn.mvcpract.security.PasswordNotSentException;
 import com.brittonn.mvcpract.security.UserNotAutenticatedException;
@@ -25,14 +24,8 @@ public class LoginController {
 	@Autowired 
 	private MySecurityProvider securityProvider;
 	
-	@Autowired
-	private FoodItemController foodItemController;
-	
-	@Autowired 
-	UserDetailsDao userDetailsDao;
-	
 	@RequestMapping(value="/login",	method = RequestMethod.POST)
-	public ModelAndView autheticate(@ModelAttribute("SpringWeb") LoginForm loginForm, ModelMap model, HttpServletResponse response) throws UserNotAutenticatedException {
+	public String autheticate(@ModelAttribute("SpringWeb") LoginForm loginForm, ModelMap model, HttpServletResponse response) throws UserNotAutenticatedException {
 		
 		String [] roles = {"*"};
 		String token = securityProvider.autheticate(loginForm.getUser(), loginForm.getPassword(), roles);
@@ -41,7 +34,7 @@ public class LoginController {
 		addCookie(response, new Cookie(MySecurityProvider.TOKEN_HEADER, token));
 		addCookie(response, new Cookie(MySecurityProvider.USER_HEADER, loginForm.getUser()));
 		
-		return foodItemController.getAllFoodItems(model);
+		return "redirect:/dlmvc/getAllFoodItems"; // using redirect rather than forward as the etAllFoodItems request needs the above cookies.
 	}	
 		
 	

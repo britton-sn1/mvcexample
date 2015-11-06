@@ -1,7 +1,6 @@
 package com.brittonn.hibpract.dietlog;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -22,82 +21,43 @@ public class DietLogDaoImpl implements DietLogDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Override
 	@Transactional
+	@Override
 	public void addFoodItem(FoodItem foodItem) {
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			session.persist(foodItem);
-			log.debug("Added food item " + foodItem.getName());
-		}
-		finally {
-//			if(session != null) session.close();
-		}
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.persist(foodItem);
+		log.debug("Added food item " + foodItem.getName());
 	}
 
+	@Transactional
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
 	public List<FoodItem> getAllFoodItems() {
-		Session session = null;
-		List<FoodItem> foodItems = Collections.emptyList();
-		try {
-			session = sessionFactory.getCurrentSession();
-			foodItems = session.createCriteria(FoodItem.class).list(); 
-		}
-		finally {
-			//if(session != null) session.close();
-		}
-		
-		return foodItems.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new))
-				;
+		Session  session = sessionFactory.getCurrentSession();
+		List<FoodItem> foodItems = session.createCriteria(FoodItem.class).list(); 
+		return foodItems.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public FoodItem getNamedFoodItem(String name) {
-		Session session = null;
-		FoodItem foodItem = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			foodItem = (FoodItem)session.get(FoodItem.class, name); 
-		}
-		finally {
-			//if(session != null) session.close();
-		}
-		
+		Session session = sessionFactory.getCurrentSession();
+		FoodItem foodItem = (FoodItem)session.get(FoodItem.class, name); 
 		return foodItem;
 	}
 
+	@Transactional
 	@Override
 	public void updateFoodItem(FoodItem foodItem) {
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-//			session.beginTransaction();
-			session.update(foodItem);
-//			session.getTransaction().commit();
-		}
-		finally {
-//			if(session != null) session.close();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		session.update(foodItem);
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public void deleteFoodItem(String name) {
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			FoodItem foodItem = getNamedFoodItem(name);
-//			session.beginTransaction();
-			session.delete(foodItem);
-//			session.getTransaction().commit();
-		}
-		finally {
-			//if(session != null) session.close();
-		}
+		Session session = sessionFactory.getCurrentSession();
+		FoodItem foodItem = getNamedFoodItem(name);
+		session.delete(foodItem);
 	}
 }

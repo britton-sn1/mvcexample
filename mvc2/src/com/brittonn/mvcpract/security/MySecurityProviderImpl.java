@@ -51,6 +51,7 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 	private Random random = new Random(System.currentTimeMillis());
 
 	@Override
+	@Transactional
 	public String autheticate(String user, String password, String[] requestedUserRoles) throws UserNotAutenticatedException {
 		
 		UserDetails userDetails = userDetailsDao.getUserDetails(user);
