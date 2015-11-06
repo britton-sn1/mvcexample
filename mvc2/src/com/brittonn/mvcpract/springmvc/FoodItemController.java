@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.brittonn.hibpract.dietlog.DietLogDao;
+import com.brittonn.hibpract.dietlog.FoodItemService;
 import com.brittonn.hibpract.dietlog.beans.FoodItem;
 
 /**
@@ -24,12 +24,11 @@ import com.brittonn.hibpract.dietlog.beans.FoodItem;
 public class FoodItemController {
 
 	@Autowired
-	private DietLogDao dietLogDao;
+	private FoodItemService foodItemService;
 	
-	@Transactional
 	@RequestMapping(value = "/getAllFoodItems", method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView getAllFoodItems(ModelMap model) {
-		List<FoodItem> foodItems = dietLogDao.getAllFoodItems();
+		List<FoodItem> foodItems = foodItemService.getAllFoodItems();
 		ModelAndView modelAndView = new ModelAndView("foodItemList");
 		modelAndView.addObject("foodItems", foodItems);
 
@@ -51,7 +50,7 @@ public class FoodItemController {
 	public ModelAndView showUpdateFoodItemForm(@RequestParam("selectedItem")String selectedItem, ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView("updateFoodItemForm");
 		try {
-			FoodItem foodItem = dietLogDao.getNamedFoodItem(selectedItem);
+			FoodItem foodItem = foodItemService.getNamedFoodItem(selectedItem);
 			FoodItemForm foodItemForm = new FoodItemForm();
 			foodItemForm.setIsUpdate();
 			foodItemForm.setName(foodItem.getName());
@@ -86,7 +85,7 @@ public class FoodItemController {
 				modelAndView = new ModelAndView("addFoodItemForm");
 				modelAndView.addObject("foodItemForm", foodItemForm);
 			} else {
-				dietLogDao.addFoodItem(foodItemForm.getFoodItem());
+				foodItemService.addFoodItem(foodItemForm.getFoodItem());
 				modelAndView = getAllFoodItems(model);
 			}
 		} catch (Exception e) {
@@ -110,7 +109,7 @@ public class FoodItemController {
 				modelAndView = new ModelAndView("addFoodItemForm");
 				modelAndView.addObject("foodItemForm", foodItemForm);
 			} else {
-				dietLogDao.updateFoodItem(foodItemForm.getFoodItem());
+				foodItemService.updateFoodItem(foodItemForm.getFoodItem());
 				modelAndView = getAllFoodItems(model);
 			}
 		} catch (Exception e) {
@@ -127,7 +126,7 @@ public class FoodItemController {
 	public ModelAndView addFoodItemForm(@RequestParam("selectedItem")String selectedItem, ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView("foodItemList");
 		try {
-			dietLogDao.deleteFoodItem(selectedItem);
+			foodItemService.deleteFoodItem(selectedItem);
 			modelAndView=getAllFoodItems(model);
 		}
 		catch(Exception e) {
