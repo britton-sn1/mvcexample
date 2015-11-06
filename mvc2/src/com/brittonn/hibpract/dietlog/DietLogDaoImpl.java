@@ -9,11 +9,11 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.brittonn.hibpract.dietlog.beans.FoodItem;
 
-@Component
+@Repository
 public class DietLogDaoImpl implements DietLogDao {
 	private static Logger log = Logger.getLogger(DietLogDaoImpl.class);
 

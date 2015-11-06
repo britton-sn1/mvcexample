@@ -3,11 +3,11 @@ package com.brittonn.hibpract.dietlog;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.brittonn.hibpract.dietlog.beans.UserDetails;
 
-@Service
+@Repository
 public class UserDetailsDaoImpl implements UserDetailsDao {
 
 	@Autowired
