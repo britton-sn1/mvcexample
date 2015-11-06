@@ -27,9 +27,8 @@
   <servlet>
     <servlet-name>dlmvc</servlet-name>
     <servlet-class>
-<!-- 		com.brittonn.mvcpract.springmvc.MyServlet -->
-			org.springframework.web.servlet.DispatcherServlet
-		</servlet-class>
+		org.springframework.web.servlet.DispatcherServlet
+	</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>dlmvc</servlet-name>

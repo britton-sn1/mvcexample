@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,7 +97,6 @@ public class FoodItemController {
 	}
 
 	@RequestMapping(value = "/updateFoodItem", method = RequestMethod.POST)
-	@Transactional
 	public ModelAndView updateFoodItem(@ModelAttribute("SpringWeb") FoodItemForm foodItemForm, ModelMap model) {
 		ModelAndView modelAndView;
 		foodItemForm.setDirty(true);

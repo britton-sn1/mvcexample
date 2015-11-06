@@ -51,7 +51,6 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 	private Random random = new Random(System.currentTimeMillis());
 
 	@Override
-	@Transactional
 	public String autheticate(String user, String password, String[] requestedUserRoles) throws UserNotAutenticatedException {
 		
 		UserDetails userDetails = userDetailsDao.getUserDetails(user);
@@ -144,6 +143,7 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 				userDetails.setPwhash(hashedPassword);
 				
 				userDetailsDao.updateUserDetails(userDetails);
+				log.debug("new password is " + password);
 				
 			} catch (NoSuchAlgorithmException e) {
 				throw new PasswordNotSentException(e.getLocalizedMessage());

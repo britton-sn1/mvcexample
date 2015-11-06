@@ -14,7 +14,7 @@
 <table>
 <c:if test="${not empty loginForm.error}"><tr><td style="color:red">${loginForm.error}</td></tr></c:if>
 <tr><td>User Name</td><td><input type="text" name="user" value="admin"/></td></tr>
-<tr><td>Password</td><td><input type="password" name="password" value="sIN^?!eTRs"/></td></tr>
+<tr><td>Password</td><td><input type="password" name="password" value="Td?vHwRQbW"/></td></tr>
 <tr><td></td><td><input type="submit" value="OK" /></td></tr>
 <tr><td><a href="/mcvpract/dlmvc/autheticate/forgotpassword">Forgot Password</a></td></tr>
 </table>

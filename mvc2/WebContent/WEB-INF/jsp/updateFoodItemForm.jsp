@@ -7,11 +7,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add Food Item</title>
+<title>Update Food Item</title>
 </head>
 <body>
 <table>
-	<tr><td>Add Food Item</td></tr>
+	<tr><td>Update Food Item</td></tr>
 	<c:if test="${not empty foodItemForm.error}"><tr><td style="color:red">${foodItemForm.error}</td></tr></c:if>
 	<tr><td>
 		<form:form method="post" action="/mcvpract/dlmvc/updateFoodItem">
