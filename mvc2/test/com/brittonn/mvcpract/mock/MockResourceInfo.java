@@ -40,8 +40,7 @@ public class MockResourceInfo implements ResourceInfo {
 
 	@Override
 	public Class<?> getResourceClass() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public boolean isAutorizationRequired() {

@@ -26,12 +26,12 @@ public class LoginService {
 	@AutorizationNotRequired
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response doLogin(LoginDetails loginForm) {
+	public Response doLogin(LoginDetails loginDetails) {
 		
 		String [] roles = {"*"};
 		String token;
 		try {
-			token = securityProvider.autheticate(loginForm.getName(), loginForm.getPassword(), roles);
+			token = securityProvider.autheticate(loginDetails.getName(), loginDetails.getPassword(), roles);
 		} catch(UserNotAutenticatedException nae) {
 			return  Response.ok("Not authorized").status(Response.Status.UNAUTHORIZED).build();
 			
@@ -39,7 +39,7 @@ public class LoginService {
 		
 		ResponseBuilder responseBuilder = Response.ok("authenticated").status(200);
 		responseBuilder.header(MySecurityProvider.TOKEN_HEADER, token);
-		responseBuilder.header(MySecurityProvider.USER_HEADER, loginForm.getName());
+		responseBuilder.header(MySecurityProvider.USER_HEADER, loginDetails.getName());
 		
 		return responseBuilder.build();
 	}

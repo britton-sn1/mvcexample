@@ -40,7 +40,7 @@ public class MockMySecurityProvider implements MySecurityProvider {
 
 	@Override
 	public void sendNewPassword(RequestNewPasswordForm requestNewPasswordForm) throws PasswordNotSentException {
-		// TODO Auto-generated method stub
+		// TODO Include in a junit test
 		
 	}
 
