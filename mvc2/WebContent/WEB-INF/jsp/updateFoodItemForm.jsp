@@ -12,7 +12,7 @@
 <body>
 <table>
 	<tr><td>Update Food Item</td></tr>
-	<c:if test="${not empty foodItemForm.error}"><tr><td style="color:red">${foodItemForm.error}</td></tr></c:if>
+	<c:if test="${not empty error}"><tr><td style="color:red">${error}</td></tr></c:if>
 	<tr><td>
 		<form:form method="post" action="/mcvpract/dlmvc/updateFoodItem">
 		<table>

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ public class FoodItemController {
 	@Autowired
 	private FoodItemService foodItemService;
 	
-	@RequestMapping(value = "/getAllFoodItems", method = {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value = "/getAllFoodItems", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getAllFoodItems(ModelMap model) {
 		List<FoodItem> foodItems = foodItemService.getAllFoodItems();
 		ModelAndView modelAndView = new ModelAndView("foodItemList");
@@ -35,7 +34,6 @@ public class FoodItemController {
 		return modelAndView;
 	}
 
-	@Transactional
 	@RequestMapping(value = "/showAddFoodItemForm", method = RequestMethod.GET)
 	public static ModelAndView showAddFoodItemForm(ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView("addFoodItemForm");
@@ -45,7 +43,6 @@ public class FoodItemController {
 		return modelAndView;
 	}
 
-	@Transactional
 	@RequestMapping(value = "/showUpdateFoodItemForm", method = RequestMethod.GET)
 	public ModelAndView showUpdateFoodItemForm(@RequestParam("selectedItem")String selectedItem, ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView("updateFoodItemForm");
@@ -66,19 +63,17 @@ public class FoodItemController {
 			
 			modelAndView.addObject("foodItemForm", foodItemForm);
 		} catch (Exception e) {
-			modelAndView=getAllFoodItems(model);
+			modelAndView=new ModelAndView("forward:/dlmvc/getAllFoodItems");
 			modelAndView.addObject("error",e.toString());
 		}
 		
 		return modelAndView;
 	}
 	
-	@Transactional
 	@RequestMapping(value = "/addFoodItem", method = RequestMethod.POST)
 	public ModelAndView addFoodItem(@ModelAttribute("SpringWeb") FoodItemForm foodItemForm, ModelMap model) {
 		ModelAndView modelAndView;
 		foodItemForm.setDirty(true);
-		foodItemForm.setError("");
 
 		try {
 			if (foodItemForm.isInvalid()) {
@@ -86,23 +81,21 @@ public class FoodItemController {
 				modelAndView.addObject("foodItemForm", foodItemForm);
 			} else {
 				foodItemService.addFoodItem(foodItemForm.getFoodItem());
-				modelAndView = getAllFoodItems(model);
+				modelAndView = new ModelAndView("forward:/dlmvc/getAllFoodItems");
 			}
 		} catch (Exception e) {
-			foodItemForm.setError(e.toString());
 			modelAndView = new ModelAndView("addFoodItemForm");
 			modelAndView.addObject("foodItemForm", foodItemForm);
+			modelAndView.addObject("error",e.toString());
 		}
 
 		return modelAndView;
 	}
 
-	@Transactional
 	@RequestMapping(value = "/updateFoodItem", method = RequestMethod.POST)
 	public ModelAndView updateFoodItem(@ModelAttribute("SpringWeb") FoodItemForm foodItemForm, ModelMap model) {
 		ModelAndView modelAndView;
 		foodItemForm.setDirty(true);
-		foodItemForm.setError("");
 
 		try {
 			if (foodItemForm.isInvalid()) {
@@ -110,27 +103,24 @@ public class FoodItemController {
 				modelAndView.addObject("foodItemForm", foodItemForm);
 			} else {
 				foodItemService.updateFoodItem(foodItemForm.getFoodItem());
-				modelAndView = getAllFoodItems(model);
+				modelAndView = new ModelAndView("forward:/dlmvc/getAllFoodItems");
 			}
 		} catch (Exception e) {
-			foodItemForm.setError(e.toString());
 			modelAndView = new ModelAndView("addFoodItemForm");
 			modelAndView.addObject("foodItemForm", foodItemForm);
+			modelAndView.addObject("error",	e.toString());
 		}
 
 		return modelAndView;
 	}
 
-	@Transactional
 	@RequestMapping(value="/deleteFoodItem", method=RequestMethod.GET)
 	public ModelAndView addFoodItemForm(@RequestParam("selectedItem")String selectedItem, ModelMap model) {
-		ModelAndView modelAndView = new ModelAndView("foodItemList");
+		ModelAndView modelAndView = new ModelAndView("forward:/dlmvc/getAllFoodItems");
 		try {
 			foodItemService.deleteFoodItem(selectedItem);
-			modelAndView=getAllFoodItems(model);
 		}
 		catch(Exception e) {
-			modelAndView=getAllFoodItems(model);
 			modelAndView.addObject("error",e.toString());
 		}
 		

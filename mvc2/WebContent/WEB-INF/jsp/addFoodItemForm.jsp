@@ -12,7 +12,7 @@
 <body>
 <table>
 	<tr><td>Add Food Item</td></tr>
-	<c:if test="${not empty foodItemForm.error}"><tr><td style="color:red">${foodItemForm.error}</td></tr></c:if>
+	<c:if test="${not empty error}"><tr><td style="color:red">${error}</td></tr></c:if>
 	<tr><td><form:form method="post" action="/mcvpract/dlmvc/addFoodItem">
 		<table>
 			<tr><td>Name</td><td><input name="name" type="text" value="${foodItemForm.name}"/></td><td style="color:red"><c:if test="${foodItemForm.nameNotSupplied}">Not Supplied</c:if></td></tr>
@@ -25,7 +25,7 @@
 			<tr><td>Fibre</td><td><input name="fibre" type="number" step="0.01" value="${foodItemForm.fibre}" /></td><td style="color:red"><c:if test="${foodItemForm.fibreNotSupplied}">Not Supplied</c:if></td><tr>
 			<tr><td>Sodium</td><td><input name="sodium" type="number" step="0.01" value="${foodItemForm.sodium}" /></td><td style="color:red"><c:if test="${foodItemForm.sodiumNotSupplied}">Not Supplied</c:if></td><tr>
 			<tr><td>Energy</td><td><input name="energy" type="number" step="0.01" value="${foodItemForm.energy}" /></td><td style="color:red"><c:if test="${foodItemForm.energyNotSupplied}">Not Supplied</c:if></td><tr>
-			<tr><td></td><td align="right"><input type="submit" value="Add"  ></td></tr>
+			<tr><td><a href="/mcvpract/dlmvc/getAllFoodItems">Cancel</a></td><td align="right"><input type="submit" value="Add"  ></td></tr>
 		</table>
 		</form:form >
 	</td></tr>

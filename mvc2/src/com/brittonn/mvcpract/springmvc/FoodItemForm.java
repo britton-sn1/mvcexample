@@ -20,7 +20,6 @@ public class FoodItemForm {
 	private String fibre;
 	private String energy;
 	private boolean isDirty = false;
-	private String error = "";
 	private boolean isUpdate = false;
 
 	public String getName() {
@@ -173,14 +172,6 @@ public class FoodItemForm {
 		foodItem.setEnergy(Double.parseDouble(energy));
 		
 		return foodItem;
-	}
-
-	public void setError(String error) {
-		this.error  = error;
-	}
-
-	public String getError() {
-		return error;
 	}
 
 	public void setIsUpdate() {
