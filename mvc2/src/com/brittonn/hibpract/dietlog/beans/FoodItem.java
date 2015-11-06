@@ -148,4 +148,9 @@ public class FoodItem implements Cloneable, Comparable<FoodItem> {
 		return name.compareTo(o.getName());
 	}
 
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+
 }

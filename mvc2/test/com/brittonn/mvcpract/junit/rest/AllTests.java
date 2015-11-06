@@ -7,5 +7,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ FoodItemServiceTest.class, LoginServiceTest.class, MySecurityProviderTest.class, AuthorizationRequestFilterTest.class })
 public class AllTests {
-
+	// 
 }

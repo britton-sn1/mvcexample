@@ -16,9 +16,9 @@ public class LoginDetails {
 	public void setPassword(String password) {
 		this.password = hash(password);
 	}
-	private String hash(String password) {
+	private static String hash(String pwd) {
 		// TODO hash password
-		return password;
+		return pwd;
 	}
 	
 	

@@ -15,9 +15,11 @@ public class MockResourceInfo implements ResourceInfo {
 	
 	@AutorizationNotRequired
 	public void autorizationNotRequeuired() {
+		//
 	}
 	
 	public void autorizationRequeuired() {
+		//
 	}
 	
 	
@@ -29,6 +31,7 @@ public class MockResourceInfo implements ResourceInfo {
 			this.getClass().getMethod("autorizationRequeuired", null) :
 				this.getClass().getMethod("autorizationNotRequeuired", null);
 		} catch(Exception e) {
+			//
 			
 		}
 		

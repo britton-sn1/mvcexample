@@ -37,7 +37,7 @@ public class FoodItemController {
 
 	@Transactional
 	@RequestMapping(value = "/showAddFoodItemForm", method = RequestMethod.GET)
-	public ModelAndView showAddFoodItemForm(ModelMap model) {
+	public static ModelAndView showAddFoodItemForm(ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView("addFoodItemForm");
 		FoodItemForm foodItemForm = new FoodItemForm();
 		modelAndView.addObject("foodItemForm", foodItemForm);

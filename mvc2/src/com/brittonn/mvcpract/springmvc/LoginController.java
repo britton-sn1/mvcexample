@@ -38,14 +38,14 @@ public class LoginController {
 	}	
 		
 	
-	private void addCookie(HttpServletResponse response, Cookie cookie) {
+	private static void addCookie(HttpServletResponse response, Cookie cookie) {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
 
 
 	@RequestMapping(value="/forgotpassword", method=RequestMethod.GET)
-	public ModelAndView getForgotPasswordForm() {
+	static public ModelAndView getForgotPasswordForm() {
 		return new ModelAndView("forgotPasswordForm");
 	}
 	
@@ -66,7 +66,7 @@ public class LoginController {
 	
 
 	@ExceptionHandler(UserNotAutenticatedException.class)
-    public ModelAndView handleException(UserNotAutenticatedException ex, HttpServletResponse response) {
+    static public ModelAndView handleException(UserNotAutenticatedException ex, HttpServletResponse response) {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         ModelMap model = new ModelMap();
         model.addAttribute("error", "Login Failed");

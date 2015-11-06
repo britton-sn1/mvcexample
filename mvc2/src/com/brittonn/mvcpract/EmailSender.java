@@ -2,5 +2,5 @@ package com.brittonn.mvcpract;
 
 public interface EmailSender {
 
-	boolean sendEmail(String toAddress, String toName, String subject, String message);
+	boolean sendEmail(String toAddress, String toName, String subject, String message) throws EmailNotSentException;
 }

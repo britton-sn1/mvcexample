@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.brittonn.hibpract.dietlog.UserDetailsDao;
 import com.brittonn.hibpract.dietlog.beans.UserDetails;
+import com.brittonn.mvcpract.EmailNotSentException;
 import com.brittonn.mvcpract.EmailSender;
 import com.brittonn.mvcpract.springmvc.RequestNewPasswordForm;
 
@@ -92,11 +93,12 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 		log.debug("securityDetailsMap has been reduced by " + (currentMapSize-securityDetailsMap.size()));
 	}
 	
-	private int compareSecurityDetialsTimeout(String t1, String t2) {
-		int x = securityDetailsMap.get(t1).expiryTime > securityDetailsMap.get(t2).expiryTime ? -1 : 
-			securityDetailsMap.get(t1).expiryTime < securityDetailsMap.get(t2).expiryTime ? 1 : 0;
+	
+	private int compareSecurityDetialsTimeout(String securityDetials1, String securityDetails2) {
+		int compareResult = securityDetailsMap.get(securityDetials1).expiryTime > securityDetailsMap.get(securityDetails2).expiryTime ? -1 : 
+			securityDetailsMap.get(securityDetials1).expiryTime < securityDetailsMap.get(securityDetails2).expiryTime ? 1 : 0;
 					
-		return x;
+		return compareResult;
 	}
 
 	private void removeSecurityDetail(String token) {
@@ -128,7 +130,7 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 
 	@Override
 	@Transactional
-	public void sendNewPassword(RequestNewPasswordForm requestNewPasswordForm) throws PasswordNotSentException {
+	public void sendNewPassword(RequestNewPasswordForm requestNewPasswordForm) throws PasswordNotSentException{
 		UserDetails userDetails = userDetailsDao.getUserDetails(requestNewPasswordForm.getUsername());
 		if(userDetails == null) {
 			throw new PasswordNotSentException("Unknown User");
@@ -147,14 +149,16 @@ public class MySecurityProviderImpl implements MySecurityProvider {
 				log.debug("new password is " + password);
 				
 			} catch (NoSuchAlgorithmException e) {
-				throw new PasswordNotSentException(e.getLocalizedMessage());
+				throw new PasswordNotSentException(e);
 			} catch (InvalidKeySpecException e) {
-				throw new PasswordNotSentException(e.getLocalizedMessage());
+				throw new PasswordNotSentException(e);
+			} catch (EmailNotSentException e)  {
+				throw new PasswordNotSentException(e);
 			}
 		}
 	}
 
-    private String generateNewPassword() {
+    static private String generateNewPassword() {
     	final String passwordChars = "abcdefghijklmnopqrstuwvABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!£$%^&?";
     	final int passwordLength = 10;
     	final Random rand = new Random();

@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 public class EmailSenderImpl implements EmailSender {
 
 	@Override
-	public boolean sendEmail(String toAddress, String toName, String subject, String message) {
+	public boolean sendEmail(String toAddress, String toName, String subject, String message) throws EmailNotSentException {
 		Properties props = new Properties();
 		
         
-        try {
-        	props.load(new FileReader( "f:\\dlmvc\\email.properties"));
+        try(FileReader propertiesFileReader = new FileReader( "f:\\dlmvc\\email.properties")) {
+        	props.load(propertiesFileReader);
             Session	 session = Session.getDefaultInstance(props, null);
     		    Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(props.getProperty("email.from.email"), props.getProperty("email.from.name")));
@@ -38,13 +38,8 @@ public class EmailSenderImpl implements EmailSender {
             tr.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+        	throw new EmailNotSentException(e);
         }
         return true;
 	}
-	
-	public static void main(String[] args) {
-		new EmailSenderImpl().sendEmail("dltest@snowjest.plus.com", "A test user", "this is a test", "Here is some test text");
-	}
-
 }

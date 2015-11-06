@@ -184,8 +184,8 @@ public class PasswordHash
         int paddingLength = (array.length * 2) - hex.length();
         if(paddingLength > 0)
             return String.format("%0" + paddingLength + "d", Integer.valueOf(0)) + hex;
-        else
-            return hex;
+
+        return hex;
     }
 
     /**
