@@ -8,5 +8,4 @@ public interface UserDetailsDao {
 
 	void updateUserDetails(UserDetails userDetails); 
 	
-	void masterChangeO();
 }
