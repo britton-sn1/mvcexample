@@ -7,4 +7,6 @@ public interface UserDetailsDao {
 	UserDetails getUserDetails(String userName);
 
 	void updateUserDetails(UserDetails userDetails); 
+	
+	void branchChange();
 }
