@@ -8,5 +8,5 @@ public interface UserDetailsDao {
 
 	void updateUserDetails(UserDetails userDetails); 
 	
-	void branchChange();
+	void branchChange2();
 }
